@@ -1,12 +1,557 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Lightaylor Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강태경 — Backend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f9f9fb;
+  --white: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --light: #9ca3af;
+  --border: #e5e7eb;
+  --accent: #0e7a4f;
+  --accent-light: #ecfdf5;
+  --tag-bg: #f0faf5;
+  --tag-border: #d1f0e0;
+  --nav-active: #0e7a4f;
+  --dot: #0e7a4f;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.layout {
+  display: flex;
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 56px 0 80px;
+}
+
+.sidebar {
+  width: 130px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 48px;
+  padding: 56px 0 0;
+}
+
+.nav-list { list-style: none; }
+.nav-item { margin-bottom: 2px; }
+.nav-link {
+  display: block;
+  font-family: 'Figtree', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--light);
+  padding: 5px 12px 5px 16px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.nav-link:hover { color: var(--accent); }
+.nav-link.active { color: var(--accent); border-left-color: var(--accent); }
+
+.section { margin-bottom: 72px; scroll-margin-top: 40px; }
+
+/* INTRO */
+.intro-name {
+  font-family: 'Figtree', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+.intro-role { font-size: 15px; color: var(--muted); font-weight: 400; margin-bottom: 18px; }
+.intro-contact { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 36px; }
+.contact-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--muted);
+  background: var(--white); border: 1px solid var(--border);
+  padding: 5px 12px; border-radius: 999px; transition: all 0.15s;
+}
+.contact-pill:hover { color: var(--accent); border-color: var(--accent); }
+.contact-pill svg { width: 14px; height: 14px; }
+
+.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+.card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 20px;
+  box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.card-title { font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.35; }
+.card-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 11.5px; color: var(--accent);
+  background: var(--accent-light); border: 1px solid #a7f3d0;
+  border-radius: 999px; padding: 2px 10px; font-weight: 500;
+}
+
+/* SECTION HEADING */
+.section-heading {
+  font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border);
+}
+
+/* EXPERIENCE */
+.exp-total { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.exp-total-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); font-family: 'Figtree', sans-serif; }
+.exp-total-badge { font-size: 12px; font-weight: 600; color: var(--text); background: var(--white); border: 1px solid var(--border); padding: 3px 12px; border-radius: 999px; box-shadow: var(--shadow); }
+
+.timeline { position: relative; }
+.timeline::before { content: ''; position: absolute; left: 138px; top: 8px; bottom: 0; width: 1px; background: var(--border); }
+
+.tl-item { display: flex; gap: 0; margin-bottom: 36px; position: relative; }
+.tl-item:last-child { margin-bottom: 0; }
+
+.tl-date { width: 138px; flex-shrink: 0; text-align: right; padding-right: 28px; padding-top: 2px; }
+.tl-date-main { font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); }
+.tl-date-sub { font-size: 11.5px; color: var(--light); margin-top: 2px; }
+
+.tl-dot { position: absolute; left: 131px; top: 6px; width: 15px; height: 15px; border-radius: 50%; background: var(--white); border: 2.5px solid var(--dot); z-index: 1; }
+.tl-dot.current { background: var(--dot); }
+
+.tl-body { flex: 1; padding-left: 28px; }
+.tl-header { display: flex; align-items: center; gap: 10px; margin-bottom: 3px; flex-wrap: wrap; }
+.tl-company { font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); }
+
+.tl-badge-green { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+.tl-badge-gray { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
+.tl-duration { font-size: 11px; color: var(--light); background: var(--tag-bg); border: 1px solid var(--tag-border); padding: 2px 9px; border-radius: 999px; font-family: 'Figtree', sans-serif; font-weight: 500; }
+
+.tl-sub-item { margin-bottom: 20px; }
+.tl-sub-item:last-child { margin-bottom: 0; }
+.tl-role { font-size: 12.5px; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+
+.tl-bullets { list-style: none; padding: 0; margin-bottom: 10px; }
+.tl-bullets li { font-size: 13.5px; color: #374151; padding-left: 16px; position: relative; margin-bottom: 5px; line-height: 1.65; }
+.tl-bullets li::before { content: '•'; position: absolute; left: 0; color: var(--dot); font-size: 14px; }
+.tl-bullets li b { font-weight: 700; color: var(--text); }
+
+.tl-skill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.tl-skill-label { font-size: 11.5px; font-weight: 700; color: var(--muted); margin-bottom: 5px; }
+.tl-skill-tag { font-size: 11px; font-weight: 500; color: #4b5563; background: var(--tag-bg); border: 1px solid var(--tag-border); padding: 2px 9px; border-radius: 6px; font-family: 'Figtree', sans-serif; }
+
+/* SKILLS */
+.skill-grid { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { display: flex; align-items: flex-start; gap: 16px; padding: 14px 16px; background: var(--white); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); }
+.skill-cat { font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); width: 110px; flex-shrink: 0; padding-top: 2px; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-chip { font-size: 12px; font-weight: 500; color: var(--text); background: var(--tag-bg); border: 1px solid var(--tag-border); padding: 3px 11px; border-radius: 6px; font-family: 'Figtree', sans-serif; }
+
+/* LIST CARD */
+.list-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.list-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 13px 18px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.list-row:last-child { border-bottom: none; }
+.list-row-main { color: var(--text); }
+.list-row-main b { font-weight: 700; }
+.list-row-meta { font-size: 12px; color: var(--light); white-space: nowrap; font-family: 'Figtree', sans-serif; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.section { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+.section:nth-child(1) { animation-delay: 0.05s; }
+.section:nth-child(2) { animation-delay: 0.15s; }
+.section:nth-child(3) { animation-delay: 0.22s; }
+.section:nth-child(4) { animation-delay: 0.28s; }
+.section:nth-child(5) { animation-delay: 0.34s; }
+.section:nth-child(6) { animation-delay: 0.40s; }
+.section:nth-child(7) { animation-delay: 0.46s; }
+
+@media (max-width: 760px) {
+  .layout { flex-direction: column; gap: 0; padding: 0 16px; }
+  .sidebar { display: none; }
+  .card-grid { grid-template-columns: 1fr; }
+  .timeline::before { left: 100px; }
+  .tl-dot { left: 93px; }
+  .tl-date { width: 100px; }
+}
+</style>
 </head>
 <body>
-  <p>Hello, World! </p>
+<div class="layout">
+
+  <main class="main">
+
+    <!-- INTRODUCE -->
+    <section class="section" id="introduce">
+      <div class="intro-name">강태경</div>
+      <div class="intro-role">Backend Engineer</div>
+      <div class="intro-contact">
+        <a class="contact-pill" href="mailto:115taegyeong@gmail.com">
+          <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          115taegyeong@gmail.com
+        </a>
+        <a class="contact-pill" href="https://github.com/lightaylor" target="_blank">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          github.com/lightaylor
+        </a>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Payment &amp; Fintech Domain</div>
+          <div class="card-desc">결제 연동(KCP·네이버페이·아임포트), 거래소 FDS, 정기결제·국제화·DDD 설계까지 결제 도메인을 깊게 다룬 경험</div>
+          <div class="tag-row">
+            <span class="tag">Payment</span>
+            <span class="tag">FDS</span>
+            <span class="tag">DDD</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Performance &amp; Reliability</div>
+          <div class="card-desc">GraphQL 구조 개선으로 응답속도 40% 향상, 이미지 파이프라인 최적화로 로딩 56% 단축 등 수치로 검증한 성능 개선</div>
+          <div class="tag-row">
+            <span class="tag">Optimization</span>
+            <span class="tag">System Design</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Infra &amp; Automation</div>
+          <div class="card-desc">Airflow 구축, DataDog 모니터링, FCM 대량 발송 설계, 도어락 연동 자동화 등 운영 효율을 높이는 인프라 경험</div>
+          <div class="tag-row">
+            <span class="tag">Airflow</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Automation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="section-heading">Experience</div>
+
+      <div class="exp-total">
+        <span class="exp-total-label">Total</span>
+        <span class="exp-total-badge">7년 차</span>
+      </div>
+
+      <div class="timeline">
+
+        <!-- QMIT -->
+        <div class="tl-item">
+          <div class="tl-date">
+            <div class="tl-date-main">2025.01 ~</div>
+          </div>
+          <div class="tl-dot current"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-company">큐엠아이티 (QMIT)</span>
+              <span class="tl-badge-green">재직 중</span>
+              <span class="tl-duration">1년 2개월+</span>
+            </div>
+            <div class="tl-sub-item">
+              <div class="tl-role">Backend Engineer / 스포츠 코칭 플랫폼</div>
+              <ul class="tl-bullets">
+                <li>payment-svc를 <b>DDD 구조로 전체 개편</b> 및 모노레포 통합 — 구독·결제·쿠폰·카드정보 모듈을 유스케이스 중심으로 재설계, 도메인 경계 명확화로 변경 영향도·테스트 복잡도 감소</li>
+                <li>결제 모델 국제화 및 보호자 대리결제 기능 설계·구현 — 선수-보호자 연결 정책 수립부터 결제 위임 플로우 개발까지 전 과정 주도</li>
+                <li><b>FCM 대량 알림 10만 건 안정 발송</b> — API call 제한 준수를 위해 500건씩 분할 발송 로직 설계, 열람 로그 기능 함께 구현</li>
+                <li>GraphQL 쿼리·리졸버 구조 개선 — DataLoader 도입·request 단위 캐시 적용으로 N+1 완화 → <b>서버 응답속도 40% 개선</b></li>
+                <li>결제 도메인 인가 로직을 Guard 레이어로 분리, 정책·예외 조건 표준화로 변경 영향 범위 최소화</li>
+                <li>데일리·스케줄 리포트, 측정 리포트 등 코치 앱 분석 기능 확장 → <b>해당 월 MAU 50% 성장 기여</b></li>
+                <li>user 테이블 마이그레이션 — 회원·약관·알림 설정 테이블 분리 및 이용약관 데이터 재설계</li>
+              </ul>
+              <div class="tl-skill-label">Skill Keywords</div>
+              <div class="tl-skill-row">
+                <span class="tl-skill-tag">Kotlin</span>
+                <span class="tl-skill-tag">Spring Boot</span>
+                <span class="tl-skill-tag">NestJS</span>
+                <span class="tl-skill-tag">GraphQL</span>
+                <span class="tl-skill-tag">TypeScript</span>
+                <span class="tl-skill-tag">MongoDB</span>
+                <span class="tl-skill-tag">PostgreSQL</span>
+                <span class="tl-skill-tag">Redis</span>
+                <span class="tl-skill-tag">Keycloak</span>
+                <span class="tl-skill-tag">GCP</span>
+                <span class="tl-skill-tag">FCM</span>
+                <span class="tl-skill-tag">DDD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MGRV -->
+        <div class="tl-item">
+          <div class="tl-date">
+            <div class="tl-date-main">2023.02 ~</div>
+            <div class="tl-date-sub">2024.03</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-company">엠지알브이 (MGRV)</span>
+              <span class="tl-duration">1년 1개월</span>
+            </div>
+            <div class="tl-sub-item">
+              <div class="tl-role">Backend Engineer / 숙박 예약 서비스</div>
+              <ul class="tl-bullets">
+                <li>Lambda@Edge 기반 이미지 리사이징·WebP 변환 파이프라인 설계·구축, Cold Start 문제는 업로드 직후 선호출로 해결 → <b>이미지 로딩 속도 56% 개선, 트래픽 전송량 72% 절감</b></li>
+                <li><b>Airflow 서버 직접 구축</b> — 계약·객실 데이터 동기화 스케줄러 개발로 반복 수작업 자동화, 부하 이슈 발생 시 신규 서버로 재구축 대응</li>
+                <li>외부 도어락(KeyWe·LoRa) API 연동 자동화 및 객실 비밀번호·배터리 상태 관리 어드민 구축, Polling 기반 상태 검증 스케줄러로 운영 안정성 강화</li>
+                <li>DataDog 모니터링 세팅 및 Slack 알림 연동으로 외부 서버 장애 조기 탐지 체계 구축</li>
+                <li>레거시 외부 시스템(이지램스·Leave) 데이터 내재화 배치 스케줄러 개발, 전 지점 서비스 내재화 완료</li>
+                <li>AWS 서버·DB 전환 및 신규 dev/stg 인프라 세팅·관리</li>
+              </ul>
+              <div class="tl-skill-label">Skill Keywords</div>
+              <div class="tl-skill-row">
+                <span class="tl-skill-tag">Java</span>
+                <span class="tl-skill-tag">Spring Boot</span>
+                <span class="tl-skill-tag">Python</span>
+                <span class="tl-skill-tag">Flask</span>
+                <span class="tl-skill-tag">MongoDB</span>
+                <span class="tl-skill-tag">MariaDB</span>
+                <span class="tl-skill-tag">AWS</span>
+                <span class="tl-skill-tag">Lambda@Edge</span>
+                <span class="tl-skill-tag">Airflow</span>
+                <span class="tl-skill-tag">DataDog</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hanbitco -->
+        <div class="tl-item">
+          <div class="tl-date">
+            <div class="tl-date-main">2022.07 ~</div>
+            <div class="tl-date-sub">2023.01</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-company">한빗코 (Hanbitco)</span>
+              <span class="tl-duration">6개월</span>
+            </div>
+            <div class="tl-sub-item">
+              <div class="tl-role">Backend Engineer / 암호화폐 거래소</div>
+              <ul class="tl-bullets">
+                <li><b>FDS(이상거래탐지시스템) 설계·개발</b> — IP 룰, 가상자산 회전율 계산, 거래 패턴 분석 로직 및 어드민 기능 구현, 요건 변경에 따른 지속적 고도화</li>
+                <li>ETH·EOS·KLAY <b>JSON-RPC 기반 블록체인 노드 연동</b> 개발 — Block Cypher에서 Etherscan API로 전환 포함</li>
+                <li>가상자산 거래쌍 구조 개편 및 주문 관리 어드민 개발, 신분증·Pass 인증 로직 추가</li>
+                <li>재이행 주기 메일 발송, 핀코드 10회 오류 잠금 등 금융 규제 요건 대응 기능 개발</li>
+              </ul>
+              <div class="tl-skill-label">Skill Keywords</div>
+              <div class="tl-skill-row">
+                <span class="tl-skill-tag">Java</span>
+                <span class="tl-skill-tag">Spring Boot</span>
+                <span class="tl-skill-tag">MySQL</span>
+                <span class="tl-skill-tag">Redis</span>
+                <span class="tl-skill-tag">JSON-RPC</span>
+                <span class="tl-skill-tag">Blockchain</span>
+                <span class="tl-skill-tag">FDS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tripbtoz -->
+        <div class="tl-item">
+          <div class="tl-date">
+            <div class="tl-date-main">2020.11 ~</div>
+            <div class="tl-date-sub">2022.03</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-company">트립비토즈 (Tripbtoz)</span>
+              <span class="tl-duration">1년 4개월</span>
+            </div>
+            <div class="tl-sub-item">
+              <div class="tl-role">Backend Engineer / 여행 예약 B2C 플랫폼</div>
+              <ul class="tl-bullets">
+                <li><b>다양한 PG사 결제 연동 개발·운영</b> — KCP, 네이버페이, 아임포트(KBPay·TTBB), Onda 연동 및 환불·취소 예외 처리, 결제 수단별 할인 정책 구현</li>
+                <li>Lambda 기반 썸네일 생성 및 카드 번호 암호화 기능 개발, 회원 탈퇴·신고 기능 구현</li>
+                <li>드래그 앤 드롭 CMS 기능 개발로 콘텐츠 운영 자율성 향상, 프로모션·호텔 그룹 어드민 개발</li>
+                <li>OpenCV 기반 프레임 추출 도입으로 숏폼 영상 검수 병목 해소</li>
+              </ul>
+              <div class="tl-skill-label">Skill Keywords</div>
+              <div class="tl-skill-row">
+                <span class="tl-skill-tag">Node.js</span>
+                <span class="tl-skill-tag">JavaScript</span>
+                <span class="tl-skill-tag">MySQL</span>
+                <span class="tl-skill-tag">Redis</span>
+                <span class="tl-skill-tag">MongoDB</span>
+                <span class="tl-skill-tag">AWS Lambda</span>
+                <span class="tl-skill-tag">OpenCV</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HiveLab -->
+        <div class="tl-item">
+          <div class="tl-date">
+            <div class="tl-date-main">2018.02 ~</div>
+            <div class="tl-date-sub">2020.03</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-company">하이브랩 (HiveLab)</span>
+              <span class="tl-duration">2년 1개월</span>
+            </div>
+            <div class="tl-sub-item">
+              <div class="tl-role">AEM Developer / 글로벌 CMS 운영</div>
+              <ul class="tl-bullets">
+                <li>삼성닷컴 CMS 운영 개발, 태깅 데이터 관리, 갤럭시 언팩 라이브 스트리밍 대응</li>
+                <li>약 50개국 지원 글로벌 서비스 i18n 국제화 작업, Home 개편·Explore 프로젝트 참여</li>
+              </ul>
+              <div class="tl-skill-label">Skill Keywords</div>
+              <div class="tl-skill-row">
+                <span class="tl-skill-tag">AEM</span>
+                <span class="tl-skill-tag">Java</span>
+                <span class="tl-skill-tag">JavaScript</span>
+                <span class="tl-skill-tag">HTML/CSS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SKILL -->
+    <section class="section" id="skill">
+      <div class="section-heading">Skill</div>
+      <div class="skill-grid">
+        <div class="skill-row">
+          <div class="skill-cat">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-chip">Java</span>
+            <span class="skill-chip">Kotlin</span>
+            <span class="skill-chip">TypeScript</span>
+            <span class="skill-chip">JavaScript</span>
+            <span class="skill-chip">Python</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-cat">Frameworks</div>
+          <div class="skill-tags">
+            <span class="skill-chip">Spring Boot</span>
+            <span class="skill-chip">NestJS</span>
+            <span class="skill-chip">Node.js</span>
+            <span class="skill-chip">Flask</span>
+            <span class="skill-chip">GraphQL</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-cat">Database</div>
+          <div class="skill-tags">
+            <span class="skill-chip">PostgreSQL</span>
+            <span class="skill-chip">MySQL</span>
+            <span class="skill-chip">MariaDB</span>
+            <span class="skill-chip">MongoDB</span>
+            <span class="skill-chip">Redis</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-cat">Infra / DevOps</div>
+          <div class="skill-tags">
+            <span class="skill-chip">AWS</span>
+            <span class="skill-chip">GCP</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Kubernetes</span>
+            <span class="skill-chip">Airflow</span>
+            <span class="skill-chip">Lambda@Edge</span>
+            <span class="skill-chip">DataDog</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-cat">Etc</div>
+          <div class="skill-tags">
+            <span class="skill-chip">Keycloak</span>
+            <span class="skill-chip">ElasticSearch</span>
+            <span class="skill-chip">FCM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDE PROJECT -->
+    <section class="section" id="project">
+      <div class="section-heading">Side Project</div>
+      <div class="list-card">
+        <div class="list-row">
+          <span class="list-row-main"><b><a href="https://chromewebstore.google.com/detail/kgnfkbgapafkkmkbdnjbpiibcmpkahfc?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">Time Tracker</a></b> — 실시간 타이머 및 월별 학습 데이터 시각화 Chrome 확장 프로그램 (단독 기획·개발)</span>
+        </div>
+        <div class="list-row">
+          <span class="list-row-main"><b><a href="https://chromewebstore.google.com/detail/bnhfmohhdifemioldomlbfokggfhimpo?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer">Boldify</a></b> — 웹 페이지 단어 첫 글자 강조 Chrome 확장 프로그램 (단독 기획·개발)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="section" id="education">
+      <div class="section-heading">Education &amp; Certificate</div>
+      <div class="list-card">
+        <div class="list-row">
+          <span class="list-row-main"><b>경상국립대학교</b> 컴퓨터공학과 졸업</span>
+          <span class="list-row-meta">2012.02 – 2017.03</span>
+        </div>
+        <div class="list-row">
+          <span class="list-row-main"><b>정보처리기사</b></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SIDEBAR NAV -->
+  <nav class="sidebar">
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link active" href="#introduce" data-section="introduce">Introduce</a></li>
+      <li class="nav-item"><a class="nav-link" href="#experience" data-section="experience">Experience</a></li>
+      <li class="nav-item"><a class="nav-link" href="#skill" data-section="skill">Skill</a></li>
+      <li class="nav-item"><a class="nav-link" href="#project" data-section="project">Project</a></li>
+      <li class="nav-item"><a class="nav-link" href="#education" data-section="education">Education</a></li>
+    </ul>
+  </nav>
+
+</div>
+
+<script>
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[data-section="${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
 </body>
 </html>
