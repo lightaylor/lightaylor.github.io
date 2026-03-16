@@ -278,12 +278,12 @@ a { color: inherit; text-decoration: none; }
             <div class="tl-sub-item">
               <div class="tl-role">Backend Engineer / 스포츠 코칭 플랫폼</div>
               <ul class="tl-bullets">
-                <li>payment-svc를 <b>DDD 구조로 전체 개편</b> 및 모노레포 통합 — 구독·결제·쿠폰·카드정보 모듈을 유스케이스 중심으로 재설계, 도메인 경계 명확화로 변경 영향도·테스트 복잡도 감소</li>
-                <li>결제 모델 국제화 및 보호자 대리결제 기능 설계·구현 — 선수-보호자 연결 정책 수립부터 결제 위임 플로우 개발까지 전 과정 주도</li>
-                <li><b>FCM 대량 알림 10만 건 안정 발송</b> — API call 제한 준수를 위해 500건씩 분할 발송 로직 설계, 열람 로그 기능 함께 구현</li>
-                <li>GraphQL 쿼리·리졸버 구조 개선 — DataLoader 도입·request 단위 캐시 적용으로 N+1 완화 → <b>서버 응답속도 40% 개선</b></li>
+                <li>payment-svc 멀티 모듈을 단일 모듈로 통합 주도 — 결제·구독·카드정보 간 높은 응집도를 고려해 통합 결정, 모듈 간 내부 통신 제거 및 테스트 복잡도 감소, 도메인별 패키지 구조 재편, 테스트 커버리지 100% 달성</li>
+                <li>보호자 대리결제 기능 설계·구현 — 연결된 보호자가 선수 구독을 대신 결제할 수 있는 인가 구조 설계 및 구현</li>
+                <li>FCM 대량 알림 10만 건 안정 발송 — API call 제한 준수를 위해 500건씩 분할 발송 로직 설계, 열람 로그 기능 함께 구현</li>
+                <li>GraphQL 쿼리·리졸버 구조 개선 — DataLoader 도입·request 단위 캐시 적용으로 N+1 완화 → 서버 응답속도 40% 개선</li>
                 <li>결제 도메인 인가 로직을 Guard 레이어로 분리, 정책·예외 조건 표준화로 변경 영향 범위 최소화</li>
-                <li>데일리·스케줄 리포트, 측정 리포트 등 코치 앱 분석 기능 확장 → <b>해당 월 MAU 50% 성장 기여</b></li>
+                <li>데일리·스케줄 리포트, 측정 리포트 등 코치 앱 분석 기능 확장 → 해당 월 MAU 50% 성장 기여</li>
                 <li>user 테이블 마이그레이션 — 회원·약관·알림 설정 테이블 분리 및 이용약관 데이터 재설계</li>
               </ul>
               <div class="tl-skill-label">Skill Keywords</div>
@@ -319,12 +319,10 @@ a { color: inherit; text-decoration: none; }
             <div class="tl-sub-item">
               <div class="tl-role">Backend Engineer / 숙박 예약 서비스</div>
               <ul class="tl-bullets">
-                <li>Lambda@Edge 기반 이미지 리사이징·WebP 변환 파이프라인 설계·구축, Cold Start 문제는 업로드 직후 선호출로 해결 → <b>이미지 로딩 속도 56% 개선, 트래픽 전송량 72% 절감</b></li>
-                <li><b>Airflow 서버 직접 구축</b> — 계약·객실 데이터 동기화 스케줄러 개발로 반복 수작업 자동화, 부하 이슈 발생 시 신규 서버로 재구축 대응</li>
-                <li>외부 도어락(KeyWe·LoRa) API 연동 자동화 및 객실 비밀번호·배터리 상태 관리 어드민 구축, Polling 기반 상태 검증 스케줄러로 운영 안정성 강화</li>
-                <li>DataDog 모니터링 세팅 및 Slack 알림 연동으로 외부 서버 장애 조기 탐지 체계 구축</li>
-                <li>레거시 외부 시스템(이지램스·Leave) 데이터 내재화 배치 스케줄러 개발, 전 지점 서비스 내재화 완료</li>
-                <li>AWS 서버·DB 전환 및 신규 dev/stg 인프라 세팅·관리</li>
+                <li>Lambda@Edge 기반 이미지 리사이징·WebP 변환 파이프라인 구축 — 브라우저 실환경 측정 기준 이미지 로딩 속도 56% 개선, 트래픽 전송량 72% 절감</li>
+                <li>외부 도어락(KeyWe·LoRa) API 연동 자동화 및 객실 비밀번호·배터리 상태 관리 어드민 설계·구축 — Polling 기반 상태 검증 스케줄러로 운영 안정성 강화</li>
+                <li>외부 서버 장애를 조기에 탐지할 수 있도록 Slack 알림과 관리자 모니터링 기능을 적용해 장애 대응 속도 개선</li>
+                <li>외부 계약 관리 시스템(이지램스·Leave) 데이터를 내부 설계에 맞게 동기화하는 배치 스케줄러 설계·개발 — 입주·퇴주 알림, 객실 관리 자동화로 외주 의존도 제거, 전 지점 서비스 내재화</li>
               </ul>
               <div class="tl-skill-label">Skill Keywords</div>
               <div class="tl-skill-row">
@@ -357,8 +355,8 @@ a { color: inherit; text-decoration: none; }
             <div class="tl-sub-item">
               <div class="tl-role">Backend Engineer / 암호화폐 거래소</div>
               <ul class="tl-bullets">
-                <li><b>FDS(이상거래탐지시스템) 설계·개발</b> — IP 룰, 가상자산 회전율 계산, 거래 패턴 분석 로직 및 어드민 기능 구현, 요건 변경에 따른 지속적 고도화</li>
-                <li>ETH·EOS·KLAY <b>JSON-RPC 기반 블록체인 노드 연동</b> 개발 — Block Cypher에서 Etherscan API로 전환 포함</li>
+                <li>FDS(이상거래탐지시스템) 설계·개발 — IP 룰, 가상자산 회전율 계산, 거래 패턴 분석 로직 및 어드민 기능 구현, 요건 변경에 따른 지속적 고도화</li>
+                <li>ETH·EOS·KLAY 블록체인 API 연동 — 회사 지갑 잔액 주기적 로깅, 변동 임계값 초과 시 알림 발송 및 어드민 조회 기능 개발</li>
                 <li>가상자산 거래쌍 구조 개편 및 주문 관리 어드민 개발, 신분증·Pass 인증 로직 추가</li>
                 <li>재이행 주기 메일 발송, 핀코드 10회 오류 잠금 등 금융 규제 요건 대응 기능 개발</li>
               </ul>
@@ -389,12 +387,11 @@ a { color: inherit; text-decoration: none; }
               <span class="tl-duration">1년 4개월</span>
             </div>
             <div class="tl-sub-item">
-              <div class="tl-role">Backend Engineer / 여행 예약 B2C 플랫폼</div>
+              <div class="tl-role">Backend Engineer / 여행 예약 OTA 플랫폼</div>
               <ul class="tl-bullets">
-                <li><b>다양한 PG사 결제 연동 개발·운영</b> — KCP, 네이버페이, 아임포트(KBPay·TTBB), Onda 연동 및 환불·취소 예외 처리, 결제 수단별 할인 정책 구현</li>
-                <li>Lambda 기반 썸네일 생성 및 카드 번호 암호화 기능 개발, 회원 탈퇴·신고 기능 구현</li>
-                <li>드래그 앤 드롭 CMS 기능 개발로 콘텐츠 운영 자율성 향상, 프로모션·호텔 그룹 어드민 개발</li>
-                <li>OpenCV 기반 프레임 추출 도입으로 숏폼 영상 검수 병목 해소</li>
+                <li>KCP·네이버페이·아임포트 결제 시스템 운영 및 이슈 대응</li>
+                <li>Lambda 기반 OpenCV 프레임 추출로 숏폼 영상 썸네일 자동 생성 — 영상 검수 병목 해소 및 운영 처리 시간 단축</li>
+                <li>드래그 앤 드롭 CMS 기능 개발 — 콘텐츠 운영 자율성 향상, 프로모션·호텔 그룹 어드민 개발</li>
               </ul>
               <div class="tl-skill-label">Skill Keywords</div>
               <div class="tl-skill-row">
